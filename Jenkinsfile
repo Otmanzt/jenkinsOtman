@@ -1,4 +1,5 @@
 // CODE_CHANGES = getGitChanges()
+def gv
 pipeline {
 
     agent any
@@ -19,6 +20,13 @@ pipeline {
     }
 
     stages {
+        stage("init") {
+            steps {
+                script {
+                    gv = load "script.groovy"
+                }
+            }
+        }        
             // when {
             //     expression {
             //         BRANCH_NAME == 'main' && CODE_CHANGES == true
@@ -27,9 +35,10 @@ pipeline {
         stage("build") {
             steps {
                 script {
-                    echo 'Building the app...'
-                    echo "Building version ${NEW_VERSION}"
+                    // echo 'Building the app...'
+                    // echo "Building version ${NEW_VERSION}"
                     // echo 'mvn install'
+                    gv.buildApp()
                 }
             }
         }
@@ -42,14 +51,14 @@ pipeline {
             }
             steps {
                 script {
-                   echo 'Testing the app...'
+                   gv.testApp()
                 }
             }
         }
         stage("deploy") {
             steps {
                 script {
-                   echo 'Deploying the app...'
+                   
                 //    echo "Deploying with ${SERVER_CREDENTIALS}"
                 //    sh "${SERVER_CREDENTIALS}"
                 //    withCrdentials([
@@ -57,7 +66,7 @@ pipeline {
                 //    ]){
                 //        sh "some script ${USER} ${PWD}"
                 //    }
-                echo "Deploying version ${params.VERSION}"
+                    gv.deployApp()
 
                 }
             }

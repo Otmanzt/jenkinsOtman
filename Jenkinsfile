@@ -1,5 +1,5 @@
 pipeline {
-    agent ubuntu
+    agent Ubuntu_204_agent
     stages {
         stage('init test maven repositories') {
             steps {

@@ -10,13 +10,13 @@ pipeline {
                         curl3 = sh 'curl -I -X GET https://devops.softproject.de/repository/x1/'
                         curl4 = sh 'curl -I -X GET https://devops.softproject.de/repository/x4/'
                         curl5 = curl1 && curl2 && curl3 && curl4
-                        if (curl5){
+                        if (curl1){
                             stage('correcto'){
-                                echo 'correcto'
+                                echo curl1
                             }
                         }else {
                             stage('fallo'){
-                                echo 'Fail'
+                                echo curl5
                             }
                         }
                     }

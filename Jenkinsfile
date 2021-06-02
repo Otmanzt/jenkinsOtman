@@ -5,18 +5,18 @@ pipeline {
             steps {
                 node('Ubuntu_204_agent'){
                     script{
-                        curl1 = sh 'curl -I -X GET https://devops.softproject.de/repository/releases/'
-                        curl2 = sh 'curl -I -X GET https://devops.softproject.de/repository/snapshots/'
-                        curl3 = sh 'curl -I -X GET https://devops.softproject.de/repository/x1/'
-                        curl4 = sh 'curl -I -X GET https://devops.softproject.de/repository/x4/'
-                        curl5 = curl1 && curl2 && curl3 && curl4
-                        if (curl1){
-                            stage('correcto'){
-                                echo curl1
+                        final Boolean curl1 = sh(script: "curl -I -X GET https://devops.softproject.de/repository/releases/", returnStdout: true).trim()
+                        final Boolean curl2 = sh(script: "curl -I -X GET https://devops.softproject.de/repository/snapshots/", returnStdout: true).trim()
+                        final Boolean curl3 = sh(script: "curl -I -X GET https://devops.softproject.de/repository/x1/", returnStdout: true).trim()
+                        final Boolean curl4 = sh(script: "curl -I -X GET https://devops.softproject.de/repository/x4/", returnStdout: true).trim()
+                        final Boolean curl5 = curl1 && curl2 && curl3 && curl4
+                        if (curl5){
+                            stage('Correct'){
+                                echo 'Correct'
                             }
                         }else {
-                            stage('fallo'){
-                                echo curl5
+                            stage('Fail'){
+                                echo 'Fail'
                             }
                         }
                     }
